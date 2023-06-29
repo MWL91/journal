@@ -13,10 +13,14 @@
             width: 100%;
             font-size: 16px;
         }
+
+        .hcolor {
+            color:#FF0000;
+        }
         </style>
 </head>
 <body>
-    <h1>Analiza dziennika:</h1>
+    <h1 class="hcolor">Analiza dziennika:</h1>
     <form method="post" action="/">
         <textarea name="inputFromDairy" rows="10" cols="100"><?php echo $inputFromDairy; ?></textarea>
         <button type="submit">Wyślij</button>
