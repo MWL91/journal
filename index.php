@@ -7,8 +7,11 @@ use GuzzleHttp\Psr7\Request;
 
 require_once('vendor/autoload.php');
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 const BASE_URL = 'https://api.openai.com/v1';
-const API_KEY = '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';
+define("API_KEY", $_ENV['OPENAI_API_KEY']);
 
 $inputFromDairy = $_POST['inputFromDairy'] ?? null;
 
