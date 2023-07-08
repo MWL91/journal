@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Request;
 
 require_once('vendor/autoload.php');
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 const BASE_URL = 'https://api.openai.com/v1';
