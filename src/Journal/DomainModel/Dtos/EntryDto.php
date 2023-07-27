@@ -11,21 +11,21 @@ class EntryDto
     private UuidInterface $authorId;
     private \DateTimeInterface $date;
     private string $content;
-    private ?string $verifiedContent;
+    private ?string $publishableContent;
 
     public function __construct(
         string $id,
         string $authorId,
         string $date,
         string $content,
-        ?string $verifiedContent
+        ?string $publishableContent
     )
     {
         $this->id = Uuid::fromString($id);
         $this->authorId = Uuid::fromString($authorId);
         $this->date = new \DateTimeImmutable($date);
         $this->content = $content;
-        $this->verifiedContent = $verifiedContent;
+        $this->publishableContent = $publishableContent;
     }
 
     public static function fromPayload(array $payload): self
@@ -35,7 +35,7 @@ class EntryDto
             $payload['authorId'],
             $payload['date'],
             $payload['content'],
-            $payload['verifiedContent'] ?? null
+            $payload['publishableContent'] ?? null
         );
     }
 
@@ -57,5 +57,10 @@ class EntryDto
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function getPublishableContent(): ?string
+    {
+        return $this->publishableContent;
     }
 }

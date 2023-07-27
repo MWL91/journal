@@ -32,6 +32,7 @@ class ItShouldBeCreatedTest extends TestCase
             'authorId' => $authorId->toString(),
             'date' => $date->format('Y-m-d H:i:s'),
             'content' => $content,
+            'publishableContent' => null,
         ], $entry->getPayload());
     }
 
@@ -45,6 +46,7 @@ class ItShouldBeCreatedTest extends TestCase
             'authorId' => $authorId->toString(),
             'date' => '2021-01-01 00:00:00',
             'content' => 'Hello world!',
+            'publishableContent' => null,
         ];
         $entryDto = EntryDto::fromPayload($payload);
 
