@@ -5,8 +5,9 @@ namespace Journal\DomainModel;
 use Journal\DomainModel\Commands\CreateJournalEntry;
 use Journal\DomainModel\Dtos\EntryDto;
 use Ramsey\Uuid\UuidInterface;
+use Shared\StaticAggregateRoot;
 
-final class Entry
+final class Entry extends StaticAggregateRoot
 {
     private UuidInterface $aggregateId;
     private UuidInterface $authorId;

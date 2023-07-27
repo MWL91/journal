@@ -11,11 +11,13 @@ class ItShouldBeCreatedTest extends TestCase
 {
     public function testItShouldBeCreated()
     {
+        // Given:
         $entryId = \Ramsey\Uuid\Uuid::uuid4();
         $authorId = \Ramsey\Uuid\Uuid::uuid4();
         $date = new \DateTimeImmutable();
         $content = 'Hello world!';
 
+        // When:
         $entry = new Entry();
         $entry->create(new CreateJournalEntry(
             $entryId,
@@ -24,6 +26,7 @@ class ItShouldBeCreatedTest extends TestCase
             $content
         ));
 
+        // Then:
         $this->assertEquals([
             'id' => $entryId->toString(),
             'authorId' => $authorId->toString(),
@@ -32,8 +35,9 @@ class ItShouldBeCreatedTest extends TestCase
         ], $entry->getPayload());
     }
 
-    public function testItShouldBeLoaded(): void
+    public function testItShouldBeLoadedAfterCreate(): void
     {
+        // Given:
         $entryId = \Ramsey\Uuid\Uuid::uuid4();
         $authorId = \Ramsey\Uuid\Uuid::uuid4();
         $payload = [
@@ -42,12 +46,13 @@ class ItShouldBeCreatedTest extends TestCase
             'date' => '2021-01-01 00:00:00',
             'content' => 'Hello world!',
         ];
-
         $entryDto = EntryDto::fromPayload($payload);
 
+        // When:
         $entry = new Entry();
         $entry->load($entryDto);
 
+        // Then:
         $this->assertEquals($payload, $entry->getPayload());
     }
 }
