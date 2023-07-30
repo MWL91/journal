@@ -2,7 +2,7 @@
 
 namespace Shared;
 
-use Journal\DomainModel\Dtos\EntryDto;
+use Journal\Dtos\EntryDto;
 
 abstract class StaticAggregateRoot
 {

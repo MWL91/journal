@@ -2,9 +2,11 @@
 
 namespace Journal\DomainModel;
 
-use Journal\DomainModel\Commands\CreateJournalEntry;
-use Journal\DomainModel\Commands\ModifyEntryForPrivacy;
-use Journal\DomainModel\Dtos\EntryDto;
+use Journal\Commands\CreateJournalEntry;
+use Journal\Commands\ModifyEntryForPrivacy;
+use Journal\Commands\SyncWithAi;
+use Journal\Dtos\EntryDto;
+use Journal\Infrastructure\Ai\IAiQuestionsService;
 use Ramsey\Uuid\UuidInterface;
 use Shared\StaticAggregateRoot;
 
@@ -15,6 +17,7 @@ final class Entry extends StaticAggregateRoot
     private \DateTimeInterface $date;
     private string $content;
     private string $publishableContent;
+    private string $aiQuestions;
 
     public function create(CreateJournalEntry $command): void
     {
@@ -27,7 +30,7 @@ final class Entry extends StaticAggregateRoot
     public function modifyForPrivacy(ModifyEntryForPrivacy $command): void
     {
         if($this->aggregateId <=> $command->getId()) {
-            throw new \InvalidArgumentException('Entry ID does not match');
+            return;
         }
 
         if($this->content === '') {
@@ -35,6 +38,19 @@ final class Entry extends StaticAggregateRoot
         }
 
         $this->publishableContent = $command->getContent();
+    }
+
+    public function syncWithAI(SyncWithAi $command, IAiQuestionsService $aiService): void
+    {
+        if($this->aggregateId <=> $command->getId()) {
+            return;
+        }
+
+        if(empty($this->publishableContent)) {
+            return;
+        }
+
+        $this->aiQuestions = $aiService->getQuestions($this->publishableContent);
     }
 
     public function load(EntryDto $dto): self
@@ -48,6 +64,10 @@ final class Entry extends StaticAggregateRoot
             $this->publishableContent = $dto->getPublishableContent();
         }
 
+        if ($dto->getAiQuestions() !== null) {
+            $this->aiQuestions = $dto->getAiQuestions();
+        }
+
         return $this;
     }
 
@@ -59,6 +79,7 @@ final class Entry extends StaticAggregateRoot
             'date' => $this->date->format('Y-m-d H:i:s'),
             'content' => $this->content,
             'publishableContent' => $this->publishableContent ?? null,
+            'aiQuestions' => $this->aiQuestions ?? null,
         ];
     }
 }

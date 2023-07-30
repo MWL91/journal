@@ -1,6 +1,6 @@
 <?php
 
-namespace Journal\DomainModel\Commands;
+namespace Journal\Commands;
 
 use Ramsey\Uuid\UuidInterface;
 

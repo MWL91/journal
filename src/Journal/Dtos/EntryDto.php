@@ -1,6 +1,6 @@
 <?php
 
-namespace Journal\DomainModel\Dtos;
+namespace Journal\Dtos;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -12,13 +12,15 @@ class EntryDto
     private \DateTimeInterface $date;
     private string $content;
     private ?string $publishableContent;
+    private ?string $aiQuestions;
 
     public function __construct(
         string $id,
         string $authorId,
         string $date,
         string $content,
-        ?string $publishableContent
+        ?string $publishableContent,
+        ?string $aiQuestions
     )
     {
         $this->id = Uuid::fromString($id);
@@ -26,6 +28,7 @@ class EntryDto
         $this->date = new \DateTimeImmutable($date);
         $this->content = $content;
         $this->publishableContent = $publishableContent;
+        $this->aiQuestions = $aiQuestions;
     }
 
     public static function fromPayload(array $payload): self
@@ -35,7 +38,8 @@ class EntryDto
             $payload['authorId'],
             $payload['date'],
             $payload['content'],
-            $payload['publishableContent'] ?? null
+            $payload['publishableContent'] ?? null,
+            $payload['aiQuestions'] ?? null
         );
     }
 
@@ -62,5 +66,10 @@ class EntryDto
     public function getPublishableContent(): ?string
     {
         return $this->publishableContent;
+    }
+
+    public function getAiQuestions(): ?string
+    {
+        return $this->aiQuestions;
     }
 }

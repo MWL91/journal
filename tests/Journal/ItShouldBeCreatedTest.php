@@ -2,9 +2,9 @@
 
 namespace Tests\Journal;
 
-use Journal\DomainModel\Commands\CreateJournalEntry;
-use Journal\DomainModel\Dtos\EntryDto;
+use Journal\Commands\CreateJournalEntry;
 use Journal\DomainModel\Entry;
+use Journal\Dtos\EntryDto;
 use PHPUnit\Framework\TestCase;
 
 class ItShouldBeCreatedTest extends TestCase
@@ -33,6 +33,7 @@ class ItShouldBeCreatedTest extends TestCase
             'date' => $date->format('Y-m-d H:i:s'),
             'content' => $content,
             'publishableContent' => null,
+            'aiQuestions' => null
         ], $entry->getPayload());
     }
 
@@ -47,6 +48,7 @@ class ItShouldBeCreatedTest extends TestCase
             'date' => '2021-01-01 00:00:00',
             'content' => 'Hello world!',
             'publishableContent' => null,
+            'aiQuestions' => null
         ];
         $entryDto = EntryDto::fromPayload($payload);
 
